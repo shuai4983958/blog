@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>无风不起浪的小浪花</title><meta name="author" content="吕景帅"><meta name="copyright" content="吕景帅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta property="og:type" content="website">
+<meta property="og:title" content="无风不起浪的小浪花">
+<meta property="og:url" content="http://bugjie.com/index.html">
+<meta property="og:site_name" content="无风不起浪的小浪花">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg">
+<meta property="article:author" content="吕景帅">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg"><link rel="shortcut icon" href="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E7%8C%ABicon.png"><link rel="canonical" href="http://bugjie.com/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-02-03 16:38:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E9%BA%A6%E8%8A%92.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">无风不起浪的小浪花</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site-title">无风不起浪的小浪花</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题">     <img class="post_bg" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题">无题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-03T08:17:37.863Z" title="发表于 2021-02-03 16:17:37">2021-02-03</time></span></div><div class="content">java线程的6种状态
+
+
+线程状态
+解释
+
+
+
+NEW
+尚未启动的线程状态，即线程创建，还未调用start方法
+
+
+RUNNABLE
+就绪状态（调用start，等待调度）+正在运行
+
+
+BLOCKED
+等待监视器锁时，陷入阻塞状态
+
+
+WAITING
+等待状态的线程正在等待另一线程执行特定的操作（如notify）
+
+
+TIMED_WAITING
+具有指定等待时间的等待状态
+
+
+TERMINATED
+线程完成执行，终止状态
+
+
+一.新建状态即用new关键字新建一个线程，这个线程就会处于新建状态
+二.可运行状态(RUNNABLE)操作系统中的就绪和运行状态，在java种统称为RUNNABLE状态
+1.就绪状态（READY）当线程对象调用了start()方法之后，线程处于就绪状态，就绪意味着该线程可以执行，但具体啥时候执行将取决于JVM里线程调度器的调度。
+其他状态 -&gt;就绪
+线程调用start()，新建状态转化为就绪状态。
+线程sleep(long)时间到，等待状态转化为就绪状态。
+阻塞式IO操作结果返回，线程变为就绪状态。
+其他线程调用join()方法，结束之后转化为就绪状态。
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%92%B2%E5%85%AC%E8%8B%B1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1-Class文件结构"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构">JVM-1-Class文件结构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-18T09:18:05.000Z" title="发表于 2020-11-18 17:18:05">2020-11-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/JVM/">JVM</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E7%BB%BF%E6%B5%B7.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1.运行时数据区与回收算法"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法">JVM-1.运行时数据区与回收算法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-17T07:12:09.000Z" title="发表于 2020-11-17 15:12:09">2020-11-17</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/JVM/">JVM</a></span></div><div class="content">Java内存区域
+线程私有区域虚拟机栈    Java虚拟机栈是线程私有的，生命周期与线程相同。虚拟机栈描述的是java方法执行的内存模型，与数据结构的栈结构相同，每个方法被执行的时候都会同时创建一个栈帧，并压入栈中（这就是被称为虚拟机栈的原因），用于存储局部变量表，操作数栈，动态链接，方法出口等信息。
+
+局部变量表：存放变量，对于对象，存的是对象实例在堆中的指针
+操作数栈：用于计算表达式
+动态链接：
+方法出口：如main调用add方法，方法出口中保存了main的执行位置。add方法计算执行完成后，返回main方法的某一行代码
+StackOverflowError异常：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出StackOverflowError异常。
+OutOfMemoryError异常：如果虚拟机可以动态扩展，在扩展时无法申请到足够的内存，则抛出OutOfMemoryError异常。
+
+程序计数器    程序计数器是一块较小的内存空间，作用是当前线程所执行的字节码的行号指示器。在任何时刻，一个处理器只会执行一条线程中的指令。为了线程切换后能恢复到正确的执行位置，每条线程都需 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-7.Executor框架"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架">java并发编程-7.Executor框架</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-16T14:40:13.000Z" title="发表于 2020-11-16 22:40:13">2020-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">无限制创建线程的不足线程生命周期的开销非常高线程的创建与销毁并不是没有代价的。
+资源消耗活跃的线程会消耗系统资源，尤其是内存。如果可运行的线程数量多于可用处理器的数量，那么有些线程将闲置。大量空闲的线程会占用许多内存，给垃圾回收器带来压力，而且大量线程在竞争CPU资源时还将产生其他的性能开销。如果你已经拥有足够多的线程使所有CPU保持忙碌状态，那么再创建更多的线程反而会降低性能。
+稳定性在可创建线程的数量上存在一个限制。这个限制值随着平台的不同而不同，并且受多个因素制约，包括JVM的启动参数，Thread构造函数中请求的栈大小，以及底层操作系统对线程的限制。如果破坏了这些限制，那么很可能抛出OutOfMemoryError异常
+Executor框架线程池简化了线程的管理工作，并且java.util.concurrent提供了一种灵活的线程池实现作为Executor框架的一部分。在java类库中，任务执行的主要抽象不是Thread，而是Executor
+Executor接口
+123public interface Executor&#123;    void execute(Runnab ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-6.栅栏"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏">java并发编程-6.栅栏</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-16T14:35:24.000Z" title="发表于 2020-11-16 22:35:24">2020-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">CyclicBarrier类栅栏类似于闭锁，它能阻塞一组线程，直到某个事件发生。栅栏与闭锁的关键区别在于，所有线程必须都到达栅栏的位置时，才能继续执行。
+
+闭锁用于等待事件，栅栏用于等待其他线程。
+闭锁是一次性对象，一旦进入终止状态，就不能被重置。栅栏可以使一定数量的参与方反复地在栅栏位置汇集。如果所有线程都到达了栅栏位置，那么栅栏将打开，此时所有线程都被释放，而栅栏将被重置以便下次使用。
+
+闭锁的适用情况一个老板，有3个员工，每天3个员工都会进行一天的工作，等3个员工都做完了之后，老板才会开始检查每个人的工作。
+代码实现
+员工代码
+123456789101112131415161718192021222324public class Worker implements Runnable &#123;    private String name;    private CountDownLatch countDownLatch;    public Worker(String name, CountDownLatch countDownLatch) &#123;        thi ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-5.%E4%BF%A1%E5%8F%B7%E9%87%8F/" title="java并发编程-5.信号量">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-5.信号量"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-5.%E4%BF%A1%E5%8F%B7%E9%87%8F/" title="java并发编程-5.信号量">java并发编程-5.信号量</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-16T14:30:09.000Z" title="发表于 2020-11-16 22:30:09">2020-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">计数信号量（Counting Semaphore）用来控制同时访问某个特定资源的操作数量，或者同时执行某个指定操作的数量。计数信号量还可以用来实现某种资源池，或者对容器施加边界。
+Semaphore中管理着一组虚拟的许可（permit），许可的初始数量可通过构造函数来指定。 在执行操作时可以首先获得许可（只要还有剩余的许可）：Semaphore.acquire()。并在使用以后释放许可：Semaphore.release()。如果没有许可 acquire将阻塞直到许可或者直到被中断，操作超时。
+Semaphore可以用于实现资源池，例如数据库连接池。我们可以构造一个固定长度的资源池，当池为空时，请求资源将会失败，但你真正希望看到的行为是阻塞而不是失败，并且当池非空时接触阻塞。
+12345678910111213141516171819202122232425262728293031323334353637383940414243/** * 实现一个HashSet，最多只能添加bound个元素，超出后再添加，需要等待，直到map中删除了一个元素 */public class Bounde ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-4.Callable/" title="java并发编程-4.Callable">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%83%A1%E6%AD%8C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-4.Callable"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-4.Callable/" title="java并发编程-4.Callable">java并发编程-4.Callable</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-16T14:21:20.000Z" title="发表于 2020-11-16 22:21:20">2020-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">Callable是一个接口，作用和Runable相似。
+12345678910Callable&lt;Integer&gt; callable &#x3D; new Callable&lt;Integer&gt;() &#123;     @Override     public Integer call() throws Exception &#123;         int num &#x3D; 0;                  *****         return num;     &#125; &#125;
+
+FutureTask实现了RunnableFuture接口
+RunableFuture接口继承了Future和Runnable接口
+
+由于FutureTask实现了Runnable，所以他可以被当成Runnable传入Thread中。
+123456789101112131415public static void main(String[] args) throws ExecutionException, InterruptedException &#123; ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/" title="java并发编程-3.闭锁">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-3.闭锁"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/" title="java并发编程-3.闭锁">java并发编程-3.闭锁</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-16T14:06:23.000Z" title="发表于 2020-11-16 22:06:23">2020-11-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">闭锁闭锁是一种同步工具类，可以延迟线程的进度知道其到达终止状态。
+闭锁的作用相当于一扇门：在闭锁到达结束状态前，这扇门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这扇门会打开并允许所有的线程通过。
+当闭锁到达结束状态后，将不会再改变状态，因此这扇门将永远保持打开状态。
+闭锁可以用来确保某些活动直到其他活动都完成后才继续执行。例如
+
+
+确保某个计算在其需要的所有资源都初始化之后才继续执行。
+确保某个服务在其依赖的所有其他服务都已经启动之后才气动。
+等待直到某个操作的所有参与者都就绪再继续执行。
+
+
+CountDownLatch类CountDownLatch类是一种灵活的闭锁实现，可以在上述各种情况中使用，他可以使一个或多个线程等待一组事件发生。
+CountDownLatch类包括一个计数器，该计数器初始化为一个正数，表示需要等待的事件数量。countDown方法递减计数器，表示有一个时间已经发生了，而await方法会暂停线程一直到计数器到达0。计数器到达0，表示所有需要等待的事件都已经发生，此时会打开线程大门，放出所有被阻塞的线程。
+12345678910111213141 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-2.%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" title="java并发编程-2.线程封闭">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-2.线程封闭"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-2.%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" title="java并发编程-2.线程封闭">java并发编程-2.线程封闭</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-11T15:20:55.000Z" title="发表于 2020-11-11 23:20:55">2020-11-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">线程封闭当访问共享变量时，就要用到同步，一种避免同步的方式就是不共享数据。如果仅在单线程中使用数据，就不需要同步，这种技术被称为线程封闭。
+Ad-hoc线程封闭Ad-hoc线程封闭完全由程序实现，这种线程封闭比较脆弱，因为没有任何语言特性，变量修饰符等可以将某个变量封闭到单个线程中。
+对于volatile修饰变量，只要保证只能由一个线程对变量进行写入操作，其他线程只读取该共享变量的值，则可以保证线程安全。
+由于Ad-hoc线程封闭的脆弱性，在程序中尽量不要使用，应该使用更强的线程封闭技术（栈封闭和ThreadLocal等）
+栈封闭栈封闭也被称为线程内部使用或线程局部使用，在栈封闭中，只有局部变量才能访问对象。在使用栈封闭时，需要主要防止对象逸出。
+ThreadLocal类ThreadLocal类可以将变量绑定到线程中。 例如在一个线程中，使用mysql事务时，开启事务和事务中所有sql的执行，以及事务的提交都需要使用同一个MySQL链接，因此在获取链接的时候，可以使用ThreadLocal类，来保证在该线程中获取的永远都是同一个链接。
+1234567891011121314public ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/09/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1.%E5%8F%AF%E8%A7%81%E6%80%A7/" title="java并发编程-1.可见性">     <img class="post_bg" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%99%9A%E4%B8%8A%E6%B5%B7%E8%BE%B9.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-1.可见性"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/09/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1.%E5%8F%AF%E8%A7%81%E6%80%A7/" title="java并发编程-1.可见性">java并发编程-1.可见性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-09T12:06:31.000Z" title="发表于 2020-11-09 20:06:31">2020-11-09</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="content">可见性两个线程之间的数据是不共享的，每个线程都缓存了ready的值，所以第一个线程会一直循环下去，读到的一直都是已失效的ready值
+123456789101112131415161718192021public class NoVisibility &#123;    private static boolean ready;    public static void main(String[] args) throws InterruptedException &#123;        new Thread(() -&gt; &#123;            while (!ready) &#123;            &#125;            System.out.println(&quot;-------------&quot;);        &#125;).start();        Thread.sleep(1000L);        new Thread(() -&gt; &#123;            System.out.printl ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">吕景帅</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jishuxiaodang"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题">无题</a><time datetime="2021-02-03T08:17:37.863Z" title="发表于 2021-02-03 16:17:37">2021-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%92%B2%E5%85%AC%E8%8B%B1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1-Class文件结构"/></a><div class="content"><a class="title" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构">JVM-1-Class文件结构</a><time datetime="2020-11-18T09:18:05.000Z" title="发表于 2020-11-18 17:18:05">2020-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E7%BB%BF%E6%B5%B7.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1.运行时数据区与回收算法"/></a><div class="content"><a class="title" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法">JVM-1.运行时数据区与回收算法</a><time datetime="2020-11-17T07:12:09.000Z" title="发表于 2020-11-17 15:12:09">2020-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-7.Executor框架"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架">java并发编程-7.Executor框架</a><time datetime="2020-11-16T14:40:13.000Z" title="发表于 2020-11-16 22:40:13">2020-11-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-6.栅栏"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏">java并发编程-6.栅栏</a><time datetime="2020-11-16T14:35:24.000Z" title="发表于 2020-11-16 22:35:24">2020-11-16</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JVM/"><span class="card-category-list-name">JVM</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java%E5%B9%B6%E5%8F%91/"><span class="card-category-list-name">java并发</span><span class="card-category-list-count">7</span></a></li>
+            
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Callable/" style="font-size: 1.1em; color: #999">Callable</a> <a href="/tags/Class%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">Class结构</a> <a href="/tags/CountDownLatch/" style="font-size: 1.1em; color: #999">CountDownLatch</a> <a href="/tags/CyclicBarrier/" style="font-size: 1.1em; color: #999">CyclicBarrier</a> <a href="/tags/Executor/" style="font-size: 1.1em; color: #999">Executor</a> <a href="/tags/FutureTask/" style="font-size: 1.1em; color: #999">FutureTask</a> <a href="/tags/JVM/" style="font-size: 1.1em; color: #999">JVM</a> <a href="/tags/Semaphore/" style="font-size: 1.1em; color: #999">Semaphore</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">java</a> <a href="/tags/java%E5%B9%B6%E5%8F%91/" style="font-size: 1.1em; color: #999">java并发</a> <a href="/tags/volatile/" style="font-size: 1.1em; color: #999">volatile</a> <a href="/tags/%E4%BF%A1%E5%8F%B7%E9%87%8F/" style="font-size: 1.1em; color: #999">信号量</a> <a href="/tags/%E5%8F%AF%E8%A7%81%E6%80%A7/" style="font-size: 1.1em; color: #999">可见性</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 1.5em; color: #99a9bf">并发</a> <a href="/tags/%E6%A0%85%E6%A0%8F/" style="font-size: 1.1em; color: #999">栅栏</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" style="font-size: 1.1em; color: #999">线程封闭</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 1.1em; color: #999">线程池</a> <a href="/tags/%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA/" style="font-size: 1.1em; color: #999">运行时数据区</a> <a href="/tags/%E9%97%AD%E9%94%81/" style="font-size: 1.1em; color: #999">闭锁</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">9</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">10</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-02-03T08:38:00.657Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E9%BA%A6%E8%8A%92.jpg)"><div id="footer-wrap"><div class="footer_custom_text">Copyright © 吕景帅 2020</div><div class="icp"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png" alt="ICP"/><span>冀ICP备18029820号-1</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "今日事，今日毕".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: false,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '今日事，今日毕'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') subtitleType()
+  else $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+} else {
+  subtitleType()
+}</script></div></div></body></html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>java并发编程-7.Executor框架 | 无风不起浪的小浪花</title><meta name="keywords" content="Executor,线程池"><meta name="author" content="吕景帅"><meta name="copyright" content="吕景帅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="线程池简化了线程的管理工作，并且java.util.concurrent提供了一种灵活的线程池实现作为Executor框架的一部分。在java类库中，任务执行的主要抽象不是Thread，而是Executor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java并发编程-7.Executor框架">
+<meta property="og:url" content="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="无风不起浪的小浪花">
+<meta property="og:description" content="线程池简化了线程的管理工作，并且java.util.concurrent提供了一种灵活的线程池实现作为Executor框架的一部分。在java类库中，任务执行的主要抽象不是Thread，而是Executor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg">
+<meta property="article:published_time" content="2020-11-16T14:40:13.000Z">
+<meta property="article:modified_time" content="2021-02-03T08:27:51.261Z">
+<meta property="article:author" content="吕景帅">
+<meta property="article:tag" content="Executor">
+<meta property="article:tag" content="线程池">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg"><link rel="shortcut icon" href="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E7%8C%ABicon.png"><link rel="canonical" href="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-02-03 16:27:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">无风不起浪的小浪花</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">java并发编程-7.Executor框架</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-16T14:40:13.000Z" title="发表于 2020-11-16 22:40:13">2020-11-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-02-03T08:27:51.261Z" title="更新于 2021-02-03 16:27:51">2021-02-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="meta-secondline"> </div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="无限制创建线程的不足"><a href="#无限制创建线程的不足" class="headerlink" title="无限制创建线程的不足"></a>无限制创建线程的不足</h3><h4 id="线程生命周期的开销非常高"><a href="#线程生命周期的开销非常高" class="headerlink" title="线程生命周期的开销非常高"></a>线程生命周期的开销非常高</h4><p>线程的创建与销毁并不是没有代价的。</p>
+<h4 id="资源消耗"><a href="#资源消耗" class="headerlink" title="资源消耗"></a>资源消耗</h4><p>活跃的线程会消耗系统资源，尤其是内存。如果可运行的线程数量多于可用处理器的数量，那么有些线程将闲置。大量空闲的线程会占用许多内存，给垃圾回收器带来压力，而且大量线程在竞争CPU资源时还将产生其他的性能开销。如果你已经拥有足够多的线程使所有CPU保持忙碌状态，那么再创建更多的线程反而会降低性能。</p>
+<h4 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h4><p>在可创建线程的数量上存在一个限制。这个限制值随着平台的不同而不同，并且受多个因素制约，包括JVM的启动参数，Thread构造函数中请求的栈大小，以及底层操作系统对线程的限制。如果破坏了这些限制，那么很可能抛出OutOfMemoryError异常</p>
+<h3 id="Executor框架"><a href="#Executor框架" class="headerlink" title="Executor框架"></a>Executor框架</h3><p>线程池简化了线程的管理工作，并且java.util.concurrent提供了一种灵活的线程池实现作为Executor框架的一部分。在java类库中，任务执行的主要抽象不是Thread，而是Executor</p>
+<p>Executor接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Executor&#123;</span><br><span class="line">    void execute(Runnable command);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然Executor是一个简单的接口，但它却为灵活且强大的异步任务执行框架提供了基础，该框架能支持多种不同类型的任务执行策略。</p>
+<p>它提供了一种标准的方法将任务的提交过程与执行过程解耦开来，并用Runnable来表示任务。</p>
+<p>Executor的实现还提供了对生命周期的支持，以及统计信息收集，应用程序管理机制和性能监视等机制。</p>
+<p>Executor基于生产者-消费者模式，提交任务的操作相当于生产者（生成待完成的工作单元），执行任务的线程则相当于消费者（执行完这些工作单元）。如果要在程序中实现一个生产者-消费者的设计，那么最简单的方式通常就是使用Executor。</p>
+<h4 id="Executor的使用"><a href="#Executor的使用" class="headerlink" title="Executor的使用"></a>Executor的使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class Demo &#123;</span><br><span class="line">    &#x2F;&#x2F;线程的数量</span><br><span class="line">    private static final int NTHREADS &#x3D; 100;</span><br><span class="line">    &#x2F;&#x2F;生成Executor</span><br><span class="line">    private static final Executor exec &#x3D; Executors.newFixedThreadPool(NTHREADS);</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws IOException &#123;</span><br><span class="line">        ServerSocket serverSocket &#x3D; new ServerSocket(80);</span><br><span class="line">        while(true)&#123;</span><br><span class="line">            Socket connection &#x3D; serverSocket.accept();</span><br><span class="line">            Runnable runnable &#x3D; () -&gt; &#123;</span><br><span class="line">                    handleRequest(connection);</span><br><span class="line">            &#125;;</span><br><span class="line">            &#x2F;&#x2F;执行</span><br><span class="line">            exec.execute(runnable);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行策略"><a href="#执行策略" class="headerlink" title="执行策略"></a>执行策略</h4><p>​    通过将任务的提交与执行解耦开，从而可以轻易就可以为某种类型的任务指定和修改执行策略。</p>
+<p>​    在执行策略中定义任务的 What ，Where，when，How等方面，包括：</p>
+<blockquote>
+<ul>
+<li>在什么线程中执行任务？</li>
+<li>任务按照什么顺序执行？</li>
+<li>有多少个任务能并发执行？</li>
+<li>在队列中有多少个任务在等待执行？</li>
+<li>如果系统由于过载要拒绝一个任务，那么应该选择哪一个任务？另外如何通知应用程序有任务被拒绝？</li>
+<li>在执行一个任务之前或者之后，应该进行哪些动作？</li>
+</ul>
+</blockquote>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>​    线程池与工作队列密切相关，其中在工作队列中保存了所有等待执行的任务。工作者线程的任务很简单：从工作队列中获取一个人物，执行任务，然后返回线程池并等待下一个任务。</p>
+<p>​    “在线程池中执行任务”比“为每个任务分配一个线程”有时更多。</p>
+<blockquote>
+<p>通过重用现有的线程而不是创建新线程，可以在处理多个请求时分摊在线程创建和销毁过程中产生的巨大开销。</p>
+<p>当请求到达时，工作线程通常已经存在，因此不会由于等待创建线程而延迟任务的执行，从而提高了响应性。</p>
+<p>通过适当调整线程池的大小，可以创建足够多的线程以便使处理器保持忙碌状态。</p>
+<p>同时还可以防止过多线程相互竞争资源而使应用程序耗尽内存或失败</p>
+</blockquote>
+<h4 id="Executors工具类"><a href="#Executors工具类" class="headerlink" title="Executors工具类"></a>Executors工具类</h4><p><strong>newFixedThreadPool方法</strong>：newFixedThreadPool方法将创建一个固定长度的线程池，每当提交一个任务时就创建一个线程，直到达到线程池的最大数量，这是线程池的规模将不再变化。</p>
+<p><strong>newCachedThreadPool方法</strong>：newCachedThreadPool方法将创建一个可缓存的线程池，如果线程池的当前规模超过了处理需求时，那么将回收空闲的线程，而当需求增加时，则可以添加新的线程，线程池的规模不存在任何限制。</p>
+<p><strong>newSingleThreadExecutor方法</strong>：newSingleThreadExecutor方法创建的是一个单线程的Executor，它创建单个工作者线程来执行任务，如果这个线程异常结束，会创建另一个线程来替代。newSingleThreadExecutor能确保依照任务在队列中的顺序来穿行执行（按照FIFO，LIFO，优先级等方式）。</p>
+<p><strong>newScheduledThreadPool方法</strong>：会创建一个固定长度的线程池，而且以延迟或定时的方式来执行任务，类似于Timer</p>
+<h4 id="Executor的生命周期"><a href="#Executor的生命周期" class="headerlink" title="Executor的生命周期"></a>Executor的生命周期</h4><p>我们知道了如何创建一个Executor，但并没有讨论如何关闭它。Executor的实现通常会创建线程来执行任务。但JVM只有在所有（非守护线程）线程全部终止后才会退出。因此，如果无法正确的关闭Executor，那么JVM将无法结束。</p>
+<p>为了解决执行服务的生命周期问题，Executor扩展了ExecutorService接口，添加了一些用于生命周期管理的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface ExecutorService extends Executor &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;生命周期管理的方法</span><br><span class="line">    void shutdown();</span><br><span class="line">    List&lt;Runnable&gt; shutdownNow();</span><br><span class="line">    boolean isShutdown();</span><br><span class="line">    boolean isTerminated();</span><br><span class="line">    boolean awaitTermination(long timeout, TimeUnit unit)</span><br><span class="line">        throws InterruptedException;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;用于任务提交的便利方法</span><br><span class="line">    &lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task);</span><br><span class="line">    &lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);</span><br><span class="line">    Future&lt;?&gt; submit(Runnable task); </span><br><span class="line">    &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span><br><span class="line">        throws InterruptedException;</span><br><span class="line">    &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span><br><span class="line">                                  long timeout, TimeUnit unit)</span><br><span class="line">        throws InterruptedException;</span><br><span class="line">    &lt;T&gt; T invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span><br><span class="line">        throws InterruptedException, ExecutionException;</span><br><span class="line">    &lt;T&gt; T invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span><br><span class="line">                    long timeout, TimeUnit unit)</span><br><span class="line">        throws InterruptedException, ExecutionException, TimeoutException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ExecutorService的生命周期有3种状态：<strong>运行，关闭，已终止</strong>。</p>
+<ul>
+<li>ExecutorService在初始创建时处于运行状态。</li>
+<li><strong>shutdown</strong>方法将执行平缓的关闭过程：不再接受行的任务，同时等待已经提交的任务完成（包括还未开始执行的任务）。</li>
+<li><strong>shutdownNow</strong>方法将执行粗暴的关闭过程：它将尝试取消所有运行中的任务，并且不再启动队列中尚未开始执行的任务。</li>
+<li>在ExecutorService关闭后提交的任务将由“拒绝执行处理器”来处理，它会抛弃任务，或者使的execute方法抛出一个未检查的RejectedExecutionException。</li>
+<li>等所有任务都完成后，ExecutorService将转入终止状态。可以调用awaitTermination来等待ExecutorService到达终止状态，或者通过调用isTerminated来轮询ExecutorService是否已经终止。</li>
+<li>通常在调用awaitTermination之后会立即调用shutdown，从而产生同步的关闭ExecutorService的效果。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">吕景帅</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/">http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bugjie.com" target="_blank">无风不起浪的小浪花</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Executor/">Executor</a><a class="post-meta__tags" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/"><img class="prev-cover" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E7%BB%BF%E6%B5%B7.jpeg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JVM-1.运行时数据区与回收算法</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/"><img class="next-cover" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">java并发编程-6.栅栏</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">吕景帅</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jishuxiaodang"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%99%90%E5%88%B6%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%8D%E8%B6%B3"><span class="toc-number">1.</span> <span class="toc-text">无限制创建线程的不足</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E5%BC%80%E9%94%80%E9%9D%9E%E5%B8%B8%E9%AB%98"><span class="toc-number">1.1.</span> <span class="toc-text">线程生命周期的开销非常高</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E6%B6%88%E8%80%97"><span class="toc-number">1.2.</span> <span class="toc-text">资源消耗</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-number">1.3.</span> <span class="toc-text">稳定性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executor%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">Executor框架</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Executor%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">Executor的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-number">2.2.</span> <span class="toc-text">执行策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">2.3.</span> <span class="toc-text">线程池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Executors%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-number">2.4.</span> <span class="toc-text">Executors工具类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Executor%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">2.5.</span> <span class="toc-text">Executor的生命周期</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题">无题</a><time datetime="2021-02-03T08:17:37.863Z" title="发表于 2021-02-03 16:17:37">2021-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%92%B2%E5%85%AC%E8%8B%B1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1-Class文件结构"/></a><div class="content"><a class="title" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构">JVM-1-Class文件结构</a><time datetime="2020-11-18T09:18:05.000Z" title="发表于 2020-11-18 17:18:05">2020-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E7%BB%BF%E6%B5%B7.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1.运行时数据区与回收算法"/></a><div class="content"><a class="title" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法">JVM-1.运行时数据区与回收算法</a><time datetime="2020-11-17T07:12:09.000Z" title="发表于 2020-11-17 15:12:09">2020-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-7.Executor框架"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架">java并发编程-7.Executor框架</a><time datetime="2020-11-16T14:40:13.000Z" title="发表于 2020-11-16 22:40:13">2020-11-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-6.栅栏"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏">java并发编程-6.栅栏</a><time datetime="2020-11-16T14:35:24.000Z" title="发表于 2020-11-16 22:35:24">2020-11-16</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg)"><div id="footer-wrap"><div class="footer_custom_text">Copyright © 吕景帅 2020</div><div class="icp"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png" alt="ICP"/><span>冀ICP备18029820号-1</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"></div></div></body></html>

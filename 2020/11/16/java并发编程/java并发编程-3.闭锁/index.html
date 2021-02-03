@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>java并发编程-3.闭锁 | 无风不起浪的小浪花</title><meta name="keywords" content="并发,闭锁,CountDownLatch"><meta name="author" content="吕景帅"><meta name="copyright" content="吕景帅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="java并发中，闭锁的使用方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java并发编程-3.闭锁">
+<meta property="og:url" content="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/index.html">
+<meta property="og:site_name" content="无风不起浪的小浪花">
+<meta property="og:description" content="java并发中，闭锁的使用方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg">
+<meta property="article:published_time" content="2020-11-16T14:06:23.000Z">
+<meta property="article:modified_time" content="2021-02-03T08:27:51.379Z">
+<meta property="article:author" content="吕景帅">
+<meta property="article:tag" content="闭锁">
+<meta property="article:tag" content="java并发">
+<meta property="article:tag" content="CountDownLatch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg"><link rel="shortcut icon" href="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E7%8C%ABicon.png"><link rel="canonical" href="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-02-03 16:27:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">无风不起浪的小浪花</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">java并发编程-3.闭锁</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-16T14:06:23.000Z" title="发表于 2020-11-16 22:06:23">2020-11-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-02-03T08:27:51.379Z" title="更新于 2021-02-03 16:27:51">2021-02-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java%E5%B9%B6%E5%8F%91/">java并发</a></span></div><div class="meta-secondline"> </div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="闭锁"><a href="#闭锁" class="headerlink" title="闭锁"></a>闭锁</h4><p>闭锁是一种同步工具类，可以延迟线程的进度知道其到达终止状态。</p>
+<p>闭锁的作用相当于一扇门：在闭锁到达结束状态前，这扇门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这扇门会打开并允许所有的线程通过。</p>
+<p>当闭锁到达结束状态后，将不会再改变状态，因此这扇门将永远保持打开状态。</p>
+<p>闭锁可以用来确保某些活动直到其他活动都完成后才继续执行。例如</p>
+<blockquote>
+<ul>
+<li>确保某个计算在其需要的所有资源都初始化之后才继续执行。</li>
+<li>确保某个服务在其依赖的所有其他服务都已经启动之后才气动。</li>
+<li>等待直到某个操作的所有参与者都就绪再继续执行。</li>
+</ul>
+</blockquote>
+<h4 id="CountDownLatch类"><a href="#CountDownLatch类" class="headerlink" title="CountDownLatch类"></a>CountDownLatch类</h4><p>CountDownLatch类是一种灵活的闭锁实现，可以在上述各种情况中使用，他可以使一个或多个线程等待一组事件发生。</p>
+<p>CountDownLatch类包括一个计数器，该计数器初始化为一个正数，表示需要等待的事件数量。countDown方法递减计数器，表示有一个时间已经发生了，而await方法会暂停线程一直到计数器到达0。计数器到达0，表示所有需要等待的事件都已经发生，此时会打开线程大门，放出所有被阻塞的线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">//阻塞main线程的“大门”，需要有另外10个线程都准备好，才会解开</span></span><br><span class="line">        CountDownLatch mainGate = <span class="keyword">new</span> CountDownLatch(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//阻塞其他线程的“大门”，需要main线程打开</span></span><br><span class="line">        CountDownLatch otherGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建10个线程</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//该线程准备好后，将mainGate的值减1,当10个线程都准备好后，mainGate自然被置为0</span></span><br><span class="line">                    mainGate.countDown();</span><br><span class="line">                    <span class="comment">//使用otherGate阻塞当前线程，知道otherGate的值被置为0</span></span><br><span class="line">                    otherGate.await();</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">                    <span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">100000</span>; j++) &#123;</span><br><span class="line">                        num += j;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">&quot;:使用了&quot;</span> + (endTime - startTime) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//main线程在此阻塞，直到10个线程都准备好</span></span><br><span class="line">        mainGate.await();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//打开其他线程的大门</span></span><br><span class="line">        otherGate.countDown();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">吕景帅</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/">http://bugjie.com/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-3.%E9%97%AD%E9%94%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bugjie.com" target="_blank">无风不起浪的小浪花</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%97%AD%E9%94%81/">闭锁</a><a class="post-meta__tags" href="/tags/java%E5%B9%B6%E5%8F%91/">java并发</a><a class="post-meta__tags" href="/tags/CountDownLatch/">CountDownLatch</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-4.Callable/"><img class="prev-cover" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%83%A1%E6%AD%8C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">java并发编程-4.Callable</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-2.%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/"><img class="next-cover" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/001.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">java并发编程-2.线程封闭</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/%E5%A4%B4%E5%83%8F-%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">吕景帅</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jishuxiaodang"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AD%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">闭锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CountDownLatch%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">CountDownLatch类</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2021/02/03/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81/" title="无题">无题</a><time datetime="2021-02-03T08:17:37.863Z" title="发表于 2021-02-03 16:17:37">2021-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E8%92%B2%E5%85%AC%E8%8B%B1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1-Class文件结构"/></a><div class="content"><a class="title" href="/2020/11/18/JVM/JVM-1-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="JVM-1-Class文件结构">JVM-1-Class文件结构</a><time datetime="2020-11-18T09:18:05.000Z" title="发表于 2020-11-18 17:18:05">2020-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E7%BB%BF%E6%B5%B7.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM-1.运行时数据区与回收算法"/></a><div class="content"><a class="title" href="/2020/11/17/JVM/JVM-2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" title="JVM-1.运行时数据区与回收算法">JVM-1.运行时数据区与回收算法</a><time datetime="2020-11-17T07:12:09.000Z" title="发表于 2020-11-17 15:12:09">2020-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%B0%8F%E9%B8%9F.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-7.Executor框架"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-7.Executor%E6%A1%86%E6%9E%B6/" title="java并发编程-7.Executor框架">java并发编程-7.Executor框架</a><time datetime="2020-11-16T14:40:13.000Z" title="发表于 2020-11-16 22:40:13">2020-11-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏"><img src="https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E5%AF%92%E5%86%B0%E5%B0%84%E6%89%8B.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java并发编程-6.栅栏"/></a><div class="content"><a class="title" href="/2020/11/16/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-6.%E6%A0%85%E6%A0%8F/" title="java并发编程-6.栅栏">java并发编程-6.栅栏</a><time datetime="2020-11-16T14:35:24.000Z" title="发表于 2020-11-16 22:35:24">2020-11-16</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/JiShuXiaoDang/Image/raw/master/hexo/blog/%E6%9E%81%E5%85%89.jpeg)"><div id="footer-wrap"><div class="footer_custom_text">Copyright © 吕景帅 2020</div><div class="icp"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png" alt="ICP"/><span>冀ICP备18029820号-1</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"></div></div></body></html>
